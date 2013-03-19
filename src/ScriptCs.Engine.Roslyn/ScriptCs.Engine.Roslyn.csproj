@@ -33,7 +33,12 @@
     <Compile Include="..\..\common\CommonVersionInfo.cs">
       <Link>Properties\CommonVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblyCompilationHelper.cs" />
+    <Compile Include="DebugCompilationHelper.cs" />
+    <Compile Include="ICompilationHelper.cs" />
     <Compile Include="IScriptHostFactory.cs" />
+    <Compile Include="RoslynScriptAssemblyCompilerEngine.cs" />
+    <Compile Include="RoslynScriptCompilerEngine.cs" />
     <Compile Include="RoslynScriptDebuggerEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoslynScriptEngine.cs" />
