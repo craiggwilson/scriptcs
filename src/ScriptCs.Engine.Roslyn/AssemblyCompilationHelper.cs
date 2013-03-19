@@ -12,24 +12,29 @@ namespace ScriptCs.Engine.Roslyn
 
         private bool _disposed;
 
+        private string _fileName;
+
         public AssemblyCompilationHelper(string dllPath)
         {
-            _exeStream = new FileStream(dllPath, FileMode.CreateNew);
+            _exeStream = new FileStream(dllPath, FileMode.OpenOrCreate);
         }
 
         public Assembly LoadAssembly()
         {
-            if (_exeStream != null)
-            {
-                return Assembly.LoadFile(_exeStream.Name);
-            }
-
-            throw new InvalidOperationException("Cannot load assembly. Stream is null.");
+            return Assembly.LoadFile(_fileName);
         }
 
         public CommonEmitResult EmitSubmissionCompilation(Submission<object> submission)
         {
-            return submission.Compilation.Emit(_exeStream);
+            var result = submission.Compilation.Emit(_exeStream);
+
+            if (result.Success)
+            {
+                _fileName = _exeStream.Name;
+            }
+
+            _exeStream.Dispose();
+            return result;
         }
 
         public void Dispose()

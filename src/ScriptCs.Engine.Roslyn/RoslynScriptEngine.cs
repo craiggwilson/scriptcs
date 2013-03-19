@@ -26,6 +26,8 @@ namespace ScriptCs.Engine.Roslyn
             set {  _scriptEngine.BaseDirectory = value; }
         }
 
+        public string FileName { get; set; }
+
         public void Execute(string code, IEnumerable<string> references, ScriptPackSession scriptPackSession)
         {
             _logger.Debug("Retrieving script packs contexts");

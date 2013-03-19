@@ -21,6 +21,7 @@ namespace ScriptCs.Tests
             {
                 fileSystem = new Mock<IFileSystem>();
                 fileSystem.Setup(fs => fs.GetWorkingDirectory(It.IsAny<string>())).Returns(@"C:\");
+                fileSystem.Setup(fs => fs.CurrentDirectory).Returns(@"C:\");
             }
 
             fileProcessor = fileProcessor ?? new Mock<IFilePreProcessor>();
@@ -95,6 +96,25 @@ namespace ScriptCs.Tests
                 // assert
                 string expectedBaseDirectory = Path.Combine(currentDirectory, "bin");
                 expectedBaseDirectory.ShouldEqual(scriptEngine.Object.BaseDirectory);
+            }
+
+            [Fact]
+            public void ShouldSetEngineFileName()
+            {
+                // arrange
+                var scriptEngine = new Mock<IScriptEngine>();
+                scriptEngine.SetupProperty(e => e.FileName);
+                var scriptExecutor = CreateScriptExecutor(scriptEngine: scriptEngine);
+
+                var scriptName = "script.csx";
+                var paths = new string[0];
+                IEnumerable<IScriptPack> recipes = Enumerable.Empty<IScriptPack>();
+
+                // act
+                scriptExecutor.Execute(scriptName, paths, recipes);
+
+                // assert
+                scriptEngine.Object.FileName.ShouldEqual(scriptName);
             }
 
             [Fact]

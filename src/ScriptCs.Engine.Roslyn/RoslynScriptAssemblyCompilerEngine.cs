@@ -12,7 +12,12 @@ namespace ScriptCs.Engine.Roslyn
 
         protected override ICompilationHelper CreateCompilationHelper()
         {
-            var outputPath = Path.Combine(this.BaseDirectory, "output.dll");
+            const string DllExtension = ".dll";
+            var extension = Path.GetExtension(this.FileName);
+            var dllName = string.IsNullOrEmpty(extension) ? 
+                string.Concat(this.FileName, DllExtension) :
+                this.FileName.Replace(extension, ".dll");
+            var outputPath = Path.Combine(this.BaseDirectory, dllName);
             return new AssemblyCompilationHelper(outputPath);
         }
     }
